@@ -1,34 +1,28 @@
-interface Recipe {
+export function parseRecipe(input: string): {
   title: string;
-  ingredients: string[];
-  directions: string[];
-}
+  ingredients: string;
+  directions: string;
+} {
+  const parts = input.split("ingredients:");
 
-export function parseRecipe(recipeText: string): Recipe {
-  const lines: string[] = recipeText.trim().split("\n");
-  let title: string | null = null;
-  const ingredients: string[] = [];
-  const directions: string[] = [];
-
-  for (const line of lines) {
-    const words: string[] = line.split(" ");
-
-    if (line.includes("title:")) {
-      title = words.slice(1).join(" ");
-    } else if (line.includes("ingredients:")) {
-      const ingredientsText: string = words.slice(1).join(" ");
-      ingredients.push(...ingredientsText.split(", "));
-    } else if (line.includes("directions:")) {
-      const directionsText: string = words.slice(1).join(" ");
-      directions.push(...directionsText.split(". "));
-    }
+  if (parts.length !== 2) {
+    throw new Error(
+      'Invalid input format. Please provide a string with "title," "ingredients," and "directions" sections.'
+    );
   }
 
-  const recipeObject: Recipe = {
-    title: title || "",
-    ingredients: ingredients,
-    directions: directions,
-  };
+  const [titlePart, rest] = parts;
+  const [ingredientsPart, directionsPart] = rest.split("directions:");
 
-  return recipeObject;
+  if (!titlePart.trim() || !ingredientsPart.trim() || !directionsPart.trim()) {
+    throw new Error(
+      "Invalid input format. Please provide non-empty title, ingredients, and directions sections."
+    );
+  }
+
+  const title = titlePart.trim().split(":")[1].trim();
+  const ingredients = ingredientsPart.trim();
+  const directions = directionsPart.trim();
+
+  return { title, ingredients, directions };
 }

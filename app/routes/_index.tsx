@@ -28,7 +28,6 @@ export async function action({ request }: ActionArgs) {
   );
 
   const result = await response.json();
-  console.log(result);
 
   const parsedRecipe = parseRecipe(result[0].generated_text);
   return parsedRecipe;
@@ -55,7 +54,13 @@ export default function Index() {
           </Button>
         </div>
       </Form>
-      <div>{JSON.stringify(data)}</div>
+      <div className="text-center mt-20">
+        <h2 className="scroll-m-20 text-xl font-bold tracking-tight lg:text-2xl text-center">
+          {data?.title}
+        </h2>
+        <p className="leading-6 my-5">{data?.ingredients}</p>
+        <p className="leading-6">{data?.directions}</p>
+      </div>
     </div>
   );
 }
