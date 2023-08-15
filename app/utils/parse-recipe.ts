@@ -21,8 +21,9 @@ export function parseRecipe(input: string): {
   }
 
   const title = titlePart.trim().split(":")[1].trim();
+  const capitalizedTitle = title.charAt(0).toUpperCase() + title.slice(1);
   const ingredients = ingredientsPart.trim();
   const directions = directionsPart.trim();
 
-  return { title, ingredients, directions };
+  return { title: capitalizedTitle, ingredients, directions };
 }
