@@ -1,8 +1,9 @@
 import type { ActionArgs, V2_MetaFunction } from "@remix-run/node";
-import { Form, useActionData } from "@remix-run/react";
+import { Form, useActionData, useNavigation } from "@remix-run/react";
 
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { parseRecipe } from "~/utils/parse-recipe";
 
 export const meta: V2_MetaFunction = () => {
@@ -35,6 +36,8 @@ export async function action({ request }: ActionArgs) {
 
 export default function Index() {
   const data = useActionData<typeof action>();
+  const navigation = useNavigation();
+  const isGenerating = navigation.state === "submitting";
 
   return (
     <div className="container py-6">
@@ -42,14 +45,21 @@ export default function Index() {
         Remix Recipes
       </h1>
       <Form method="post">
-        <div className="flex w-full mx-auto mt-14 items-center space-x-2 justify-center">
+        <div className="flex w-full mx-auto mt-14 items-center space-x-2 justify-center flex-col md:flex-row">
           <Input
-            className="md:w-2/5"
+            className="md:w-2/5 mb-4 md:mb-0"
             type="text"
             name="name"
             placeholder="Type a recipe name"
           />
-          <Button className="min-w-fit" type="submit">
+          <Button
+            className="w-full md:w-1/6"
+            type="submit"
+            disabled={isGenerating}
+          >
+            {isGenerating && (
+              <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+            )}
             Find my recipe
           </Button>
         </div>
