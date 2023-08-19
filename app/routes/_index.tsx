@@ -74,3 +74,16 @@ export default function Index() {
     </div>
   );
 }
+
+export function ErrorBoundary() {
+  return (
+    <div className="container py-6">
+      <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl text-center">
+        Remix Recipes
+      </h1>
+      <p className="text-center mt-20">
+        Something went wrong. Please try again later.
+      </p>
+    </div>
+  );
+}
