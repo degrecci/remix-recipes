@@ -1,5 +1,5 @@
 import type { ActionArgs, V2_MetaFunction } from "@remix-run/node";
-import { Form, useActionData, useNavigation } from "@remix-run/react";
+import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
 
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -77,13 +77,18 @@ export default function Index() {
 
 export function ErrorBoundary() {
   return (
-    <div className="container py-6">
-      <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl text-center">
+    <div className="container py-6 text-center">
+      <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">
         Remix Recipes
       </h1>
       <p className="text-center mt-20">
         Something went wrong. Please try again later.
       </p>
+      <Button asChild>
+        <Link to="/" className="mt-10">
+          Try again
+        </Link>
+      </Button>
     </div>
   );
 }
