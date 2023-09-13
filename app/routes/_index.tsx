@@ -4,6 +4,7 @@ import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { ReloadIcon } from "@radix-ui/react-icons";
+import { badRequest } from "~/utils/request.server";
 import { parseRecipe } from "~/utils/parse-recipe";
 
 export const meta: V2_MetaFunction = () => {
@@ -16,6 +17,12 @@ export const meta: V2_MetaFunction = () => {
 export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
   const name = formData.get("name");
+
+  if (!name) {
+    return badRequest({
+      formError: "Form not submitted correctly.",
+    });
+  }
 
   const response = await fetch(
     "https://api-inference.huggingface.co/models/flax-community/t5-recipe-generation",
@@ -51,7 +58,18 @@ export default function Index() {
             type="text"
             name="name"
             placeholder="Type a recipe name"
+            aria-invalid={Boolean(data?.formError)}
+            aria-errormessage={data?.formError ? "name-error" : undefined}
           />
+          {data?.formError ? (
+            <span
+              className="form-validation-error"
+              id="name-error"
+              role="alert"
+            >
+              {data.formError}
+            </span>
+          ) : null}
           <Button
             className="w-full md:w-1/6"
             type="submit"
