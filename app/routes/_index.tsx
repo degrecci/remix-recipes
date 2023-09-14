@@ -52,24 +52,26 @@ export default function Index() {
         Remix Recipes
       </h1>
       <Form method="post">
-        <div className="flex w-full mx-auto mt-14 items-center space-x-2 justify-center flex-col md:flex-row">
-          <Input
-            className="md:w-2/5 mb-4 md:mb-0"
-            type="text"
-            name="name"
-            placeholder="Type a recipe name"
-            aria-invalid={Boolean(data?.formError)}
-            aria-errormessage={data?.formError ? "name-error" : undefined}
-          />
-          {data?.formError ? (
-            <span
-              className="form-validation-error"
-              id="name-error"
-              role="alert"
-            >
-              {data.formError}
-            </span>
-          ) : null}
+        <div className="flex w-full mx-auto mt-14 space-x-2 justify-center flex-col md:flex-row">
+          <div className="flex-col md:w-2/5 mb-4 md:mb-0">
+            <Input
+              type="text"
+              name="name"
+              placeholder="Type a recipe name"
+              aria-invalid={Boolean(data?.formError)}
+              aria-errormessage={data?.formError ? "name-error" : undefined}
+            />
+            {data?.formError ? (
+              <span
+                className="text-red-500 ml-2 text-sm"
+                id="name-error"
+                role="alert"
+              >
+                {data.formError}
+              </span>
+            ) : null}
+          </div>
+
           <Button
             className="w-full md:w-1/6"
             type="submit"
